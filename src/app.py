@@ -107,7 +107,16 @@ def root():
 
 @app.get("/activities")
 def get_activities():
-    return activities
+    formatted_activities = {}
+    for activity_name, details in activities.items():
+        formatted_activities[activity_name] = {
+            "description": details["description"],
+            "schedule": details["schedule"],
+            "max_participants": details["max_participants"],
+            "participants": details["participants"],
+            "participants_list": "\n".join(f"- {participant}" for participant in details["participants"])  # New participants section
+        }
+    return formatted_activities
 
 
 @app.post("/activities/{activity_name}/signup")
